@@ -15,3 +15,7 @@ wheels/
 
 # uv icorn logs
 uvicorn.log
+
+#postgres data
+pgdata/
+postgres-data/

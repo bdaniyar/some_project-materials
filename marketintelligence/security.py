@@ -28,4 +28,9 @@ class Security:
 
     def decrypt_data(self, encrypted_data: str) -> str:
         return self._fernet.decrypt(encrypted_data.encode('utf-8')).decode('utf-8')
+
+    def create_secret_key(self) -> str:
+        return token_urlsafe(32)
     
+
+security_instance = Security()
