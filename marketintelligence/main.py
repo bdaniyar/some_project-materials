@@ -1,6 +1,12 @@
-def main():
-    print("Hello from marketintelligence!")
+from fastapi import FastAPI
+
+app = FastAPI()
 
 
-if __name__ == "__main__":
-    main()
+@app.post("/generate")
+async def generate_secret_key():
+    ...
+
+@app.post("/secrets/secret_key")
+async def get_secret_data(secret_key: str):
+    ...
