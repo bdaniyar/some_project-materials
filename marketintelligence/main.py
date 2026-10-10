@@ -1,10 +1,18 @@
 from fastapi import FastAPI, Depends, Body
-from models import get_session, SecretsOrm, add_secret_record
+from models import get_session, add_secret_record, setup_db
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
 from security import security_instance
+from contextlib import asynccontextmanager
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    await setup_db()
+    yield
+
+
+
+app = FastAPI(lifespan=lifespan)
 
 DBDep =  Annotated[AsyncSession, Depends(get_session)]
 

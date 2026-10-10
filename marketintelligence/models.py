@@ -9,18 +9,22 @@ new_session = async_sessionmaker(engine, expire_on_commit=False)
 async def get_session():
     async with new_session() as session:
         yield session
-    
+
+
+async def setup_db():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
 
 class Base(DeclarativeBase):
     pass
 
-
 class SecretsOrm(Base):
     __tablename__ = "secrets"
  
-    id: Mapped[str] = mapped_column(primary_key=True, nullable=False)
-    secret_data: Mapped[str] = mapped_column(nullable=False)
-    password: Mapped[str | None] = mapped_column(nullable=False)
+    id: Mapped[str] = mapped_column(primary_key=True)
+    secret_data: Mapped[str] = mapped_column()
+    password: Mapped[str | None] = mapped_column()
     is_viewed: Mapped[bool] 
 
 
